@@ -6,17 +6,17 @@ let playerClass = localStorage.getItem("class");
 
 if(playerClass === "warrior")
 {
-    hp = 20;
+    hp = 100;
     attack = 10;
 }
 else if(playerClass === "mage")
 {
-    hp = 10;
+    hp = 50;
     attack = 5;
 }
 else if(playerClass === "rogue")
 {
-    hp = 15;
+    hp = 65;
     attack = 15;
 }
 

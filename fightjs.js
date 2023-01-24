@@ -5,15 +5,53 @@ console.log(localStorage.getItem("attack"));
 //Basic combat code to allow the player to either attack, defend or flee; notify them they are victorious or
 //have been defeated;
 
+//Player variables pulled from local storage
 let hp = parseInt(localStorage.getItem("health"));
 let maxAttack = parseInt(localStorage.getItem("attack"));
 let attack = 0;
 
-let enemyHP = 10;
+//Enemy default variables which later will be altered when more enemies are introduced
+let enemyMaxHP = 100;
+let enemyHP = enemyMaxHP;
 let enemyMaxATK = 5;
 let monsterName = "goblin";
 let enemyATK = 0;
+let attackTimer = 0;
 
+function getRndInteger(min, max) 
+{
+    return Math.floor(Math.random() * (max - min + 1) ) + min;
+}
+
+//This dictates what chunk of enemy ai logic will be used based on the enemy you're fighting
+function monsterMove(name)
+{
+    switch(name)
+    {
+        case 'goblin':
+            if(attackTimer === 3)
+            {
+                enemyATK = 0;
+                attackTimer++;
+                console.log(monsterName + " prepares his next attack!")
+            }
+            else if(attackTimer === 4)
+            {
+                enemyATK = (getRndInteger(1, enemyMaxATK) + 5);
+                console.log(monsterName + " critically hits you for " + enemyATK + " damage!")
+                attackTimer = 0;
+            }
+            else
+            {
+                enemyATK = getRndInteger(1, enemyMaxATK);
+                attackTimer = attackTimer + (getRndInteger(0, 1));
+                console.log(monsterName + " hits you for " + enemyATK + " damage!")
+                console.log(attackTimer);
+            }
+    }
+}
+
+//Fighting state function is called on combat button clicks or presses, this calculates the combat damage
 function fighting(state)
 {
     
@@ -22,29 +60,32 @@ function fighting(state)
         return;
     }
 
-    attack = (Math.floor(Math.random() * maxAttack) + 1);
-    enemyATK = (Math.floor(Math.random() * enemyMaxATK) + 1);
+    attack = getRndInteger(1, maxAttack);
+    // enemyATK = getRndInteger(1, enemyMaxATK);
 
     switch(state)
     {
         case 'attack':
+            monsterMove(monsterName);
             enemyHP -= attack;
             hp -= enemyATK;
-            console.log("Player HP: " + hp);
             console.log("You hit for " + attack + " damage!")
+            console.log("Player HP: " + hp);
             console.log("Goblin HP: " + enemyHP);
-            console.log(monsterName + " hit you for " + enemyATK + " damage!")
+            
         break;
 
         case 'defend':
-            hp -= enemyATK;
-            console.log("Player HP: " + hp);
+            monsterMove(monsterName);
+            hp -= (enemyATK/2);
             console.log("You blocked and reduced the damage in half!")
+            console.log("Player HP: " + hp);
             console.log("Goblin HP: " + enemyHP);
-            console.log(monsterName + " hit you for " + enemyATK + " damage!")   
+               
     }
 }
 
+//Buttons that recieve user input to give player control over combat
 document.getElementById('attack').addEventListener('click', async (event) => 
     {
 	    event.preventDefault()
