@@ -9,5 +9,13 @@ document.getElementById('start').addEventListener('click', async (event) =>
 document.getElementById('continue').addEventListener('click', async (event) => 
 {
 	event.preventDefault()
-	window.location.href = "maingame.html";
+	if(localStorage.getItem("class") != null)
+	{
+		window.location.href = "maingame.html";
+	}
+	else
+	{
+		console.log("No save detected");
+	}
+	
 })

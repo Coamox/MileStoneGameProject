@@ -10,7 +10,7 @@ let gobboATK = 1;
 
 console.log(hp - gobboATK);
 
-for (let i = 0; i < 10; i++ )
+while(gobboHP > 0 && hp > 0)
 {
     gobboHP -= attack;
     hp -= gobboATK;
@@ -18,7 +18,14 @@ for (let i = 0; i < 10; i++ )
     console.log("Goblin HP: " + gobboHP);
 }
 
-
+if(hp <= 0)
+{
+    console.log("You dead, try again")
+}
+else
+{
+    console.log("You won, congrats")
+}
 
 document.getElementById('back').addEventListener('click', async (event) => 
 {
