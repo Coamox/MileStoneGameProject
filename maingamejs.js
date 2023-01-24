@@ -27,7 +27,6 @@ console.log(attack);
 document.getElementById('back').addEventListener('click', async (event) => 
 {
 	event.preventDefault()
-    localStorage.clear();
 	window.location.href = "title.html";
 })
 
