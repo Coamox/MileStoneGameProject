@@ -8,10 +8,11 @@ console.log(localStorage.getItem("attack"));
 //Player variables pulled from local storage
 let hp = parseInt(localStorage.getItem("health"));
 let maxAttack = parseInt(localStorage.getItem("attack"));
+let exp = parseInt(localStorage.getItem("exp"));
 let attack = 0;
 
 //Enemy default variables which later will be altered when more enemies are introduced
-let enemyMaxHP = 100;
+let enemyMaxHP = 20;
 let enemyHP = enemyMaxHP;
 let enemyMaxATK = 5;
 let monsterName = "goblin";
@@ -97,7 +98,9 @@ document.getElementById('attack').addEventListener('click', async (event) =>
         }
         else if(enemyHP <= 0)
         {
-            console.log("You have slain the " + monsterName + "!")
+            console.log("You have slain the " + monsterName + "!");
+            console.log("You gain 5 XP!");
+            exp = exp + 5;
             return;    
         }
     }
@@ -124,6 +127,7 @@ document.getElementById('defend').addEventListener('click', async (event) =>
 document.getElementById('back').addEventListener('click', async (event) => 
     {
 	    event.preventDefault()
+        window.localStorage.setItem("exp", exp);
 	    window.location.href = "maingame.html";
     }
 )

@@ -1,4 +1,13 @@
 
+function classPick(className, hp, attack)
+{
+    window.localStorage.setItem("class",className);
+    window.localStorage.setItem("exp", 0);
+    window.localStorage.setItem("level", 1);
+    localStorage.setItem("health", hp);
+    localStorage.setItem("attack", attack);
+    window.location.href = "maingame.html";
+}
 
 document.getElementById('back').addEventListener('click', async (event) => 
 {
@@ -9,20 +18,17 @@ document.getElementById('back').addEventListener('click', async (event) =>
 document.getElementById('warrior').addEventListener('click', async (event) => 
 {
 	event.preventDefault()
-    window.localStorage.setItem("class","warrior");
-	window.location.href = "maingame.html";
+    classPick("warrior", 50, 10);
 })
 
 document.getElementById('mage').addEventListener('click', async (event) => 
 {
 	event.preventDefault()
-    window.localStorage.setItem("class","mage");
-	window.location.href = "maingame.html";
+    classPick("mage", 30, 5);
 })
 
 document.getElementById('rogue').addEventListener('click', async (event) => 
 {
 	event.preventDefault()
-    window.localStorage.setItem("class","rogue");
-	window.location.href = "maingame.html";
+    classPick("rogue", 40, 15);
 })
