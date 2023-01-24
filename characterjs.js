@@ -1,6 +1,5 @@
-document.getElementById('back').addEventListener('click', moveToTitle);
-
-function moveToTitle()
+document.getElementById('back').addEventListener('click', async (event) => 
 {
-    window.location.href = "title.html";
-}
+	event.preventDefault()
+	window.location.href = "title.html";
+})

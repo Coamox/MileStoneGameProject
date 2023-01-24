@@ -1,6 +1,12 @@
-document.getElementById('start').addEventListener('click', moveToCharacter);
+// document.getElementById('start').addEventListener('click', moveToCharacter);
 
-function moveToCharacter()
+// function moveToCharacter()
+// {
+//     window.location.href = "character.html";
+// }
+
+document.getElementById('start').addEventListener('click', async (event) => 
 {
-    window.location.href = "character.html";
-}
+	event.preventDefault()
+	window.location.href = "character.html";
+})
