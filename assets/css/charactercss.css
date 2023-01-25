@@ -28,7 +28,7 @@ body
     column-gap: 10px;
     row-gap: 10px;
     grid-auto-columns: auto;
-    grid-auto-rows: 18.5vh;
+    grid-auto-rows: 23.5vh;
     grid-template-areas:
         "a a a"
         "b b b"
