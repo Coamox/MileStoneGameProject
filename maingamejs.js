@@ -3,26 +3,35 @@ let level = parseInt(localStorage.getItem("level"));
 let exp = parseInt(localStorage.getItem("exp"));
 let playerClass = localStorage.getItem("class");
 let hp = parseInt(localStorage.getItem("health"));
-let attack = parseInt(localStorage.getItem("attack"));
+let maxAttack = parseInt(localStorage.getItem("maxAttack"));
 let gold = parseInt(localStorage.getItem("gold"))
 let name = localStorage.getItem("name");
-//Checks XP to see if the player is ready to level up
+let minAttack = parseInt(localStorage.getItem("minAttack"))
+let defense = parseInt(localStorage.getItem("defense"))
+
+//Checks XP to see if the player is ready to level up and updates values
 if(exp >= (100 * level))
 {
     level = level + 1;
     exp = exp - 100;
-    attack = attack + 2;
+    maxAttack = maxAttack + 1;
+    minAttack = minAttack + 1;
     hp = hp + 5;
     window.localStorage.setItem("exp", exp);
     window.localStorage.setItem("level", level);
     console.log("You leveled up!")
+    localStorage.setItem("health", hp);
+    localStorage.setItem("maxAttack", maxAttack);
+    localStorage.setItem("minAttack", minAttack);
 }
 
 console.log(name);
 console.log("Class: " + playerClass);
 console.log("Level: " + level);
 console.log("Health: " + hp);
-console.log("Max hit: " + attack);
+console.log("Defense: " + defense);
+console.log("Max hit: " + maxAttack);
+console.log("Min hit: " + minAttack);
 console.log("Experience: " + exp + "/" + (level*100));
 console.log("Gold: " + gold); 
 
@@ -33,10 +42,14 @@ document.getElementById('back').addEventListener('click', async (event) =>
 	window.location.href = "title.html";
 })
 
+document.getElementById('shop').addEventListener('click', async (event) => 
+{
+	event.preventDefault()
+	window.location.href = "shop.html";
+})
+
 document.getElementById('fight').addEventListener('click', async (event) => 
 {
 	event.preventDefault()
-    localStorage.setItem("health", hp);
-    localStorage.setItem("attack", attack);
 	window.location.href = "fight.html";
 })

@@ -11,9 +11,13 @@ function classPick(className, hp, attack)
     window.localStorage.setItem("class",className);
     window.localStorage.setItem("exp", 0);
     window.localStorage.setItem("level", 1);
-    window.localStorage.setItem("gold", 10);
+    window.localStorage.setItem("gold", 50);
     window.localStorage.setItem("health", hp);
-    window.localStorage.setItem("attack", attack);
+    window.localStorage.setItem("maxAttack", attack);
+    window.localStorage.setItem("minAttack", 1);
+    window.localStorage.setItem("defense", 0);
+    window.localStorage.setItem("weapontype", "fist");
+    window.localStorage.setItem("armortype", "shirt");
     window.location.href = "maingame.html";
 }
 
