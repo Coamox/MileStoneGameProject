@@ -7,7 +7,7 @@ function classPick(className, hp, attack)
         return;
     }
 
-    window.localStorage.setItem("name", (document.getElementById("name").value))
+    window.localStorage.setItem("name", (document.getElementById("textname").value))
     window.localStorage.setItem("class",className);
     window.localStorage.setItem("exp", 0);
     window.localStorage.setItem("level", 1);

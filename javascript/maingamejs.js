@@ -35,6 +35,14 @@ console.log("Min hit: " + minAttack);
 console.log("Experience: " + exp + "/" + (level*100));
 console.log("Gold: " + gold); 
 
+document.getElementById("name").innerHTML = "Player Name: " + name;
+document.getElementById("class").innerHTML = "Player Class: " + "Lvl " + level + " " + playerClass;
+document.getElementById("health").innerHTML = "Max Health: " + hp;
+document.getElementById("damage").innerHTML = "Damage Range: " + minAttack + "-" + maxAttack;
+document.getElementById("defense").innerHTML = "Defense: " + defense;
+document.getElementById("exp").innerHTML = "EXP: " + exp + "/" + (level*100);
+document.getElementById("gold").innerHTML = "Gold: " + gold;
+
 //Button and their effects
 document.getElementById('back').addEventListener('click', async (event) => 
 {
