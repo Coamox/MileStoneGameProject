@@ -47,6 +47,7 @@ button
     border-radius: 8px;
     padding: 20px;
     margin: 5px 5px 5px 5px;
+    text-align: center;
 }
 
 button:hover
@@ -62,10 +63,11 @@ h2
     background-color: rgb(198, 207, 207); 
     color: black; 
     border: 2px solid #000000;  
-    width: 400px;
-    height: 150px;
+    width: 75%;
+    height: 25%;
     font-size: 24px;
     border-radius: 8px;
     padding: 10px;
     margin: auto; 
+    text-align: center;
 }

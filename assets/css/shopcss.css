@@ -20,8 +20,8 @@ button
     border: 2px solid #000000; 
     transition-duration: 0.4s;
     opacity: 0.6; 
-    width: 150px;
-    height: 150px;
+    width: 30%;
+    height: 30%;
     font-size: 23px;
     border-radius: 8px;
     padding: 10px;
@@ -53,12 +53,51 @@ button:hover
     grid-auto-columns: auto;
     grid-auto-rows: 23.5vh;
     grid-template-areas:
-        "a a a"
-        "b b b"
-        "c c c";
+        "a b c"
+        "d d d"
+        "e e e";
 }
 
 #buttons
 {
+    grid-area: d;
+}
+
+#weapons
+{
+    grid-area: a;
+    background-color: rgb(198, 207, 207); 
+    color: black; 
+    border: 2px solid #000000;  
+    width: 450px;
+    height: 200px;
+    font-size: 8px;
+    border-radius: 8px;
+    margin: auto; 
+}
+
+#stats
+{
     grid-area: b;
+    background-color: rgb(198, 207, 207); 
+    color: black; 
+    border: 2px solid #000000;  
+    width: 450px;
+    height: 200px;
+    font-size: 8px;
+    border-radius: 8px;
+    margin: auto; 
+}
+
+#armors
+{
+    grid-area: c;
+    background-color: rgb(198, 207, 207); 
+    color: black; 
+    border: 2px solid #000000;  
+    width: 450px;
+    height: 200px;
+    font-size: 8px;
+    border-radius: 8px;
+    margin: auto; 
 }

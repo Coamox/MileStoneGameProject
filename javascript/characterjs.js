@@ -16,8 +16,8 @@ function classPick(className, hp, attack)
     window.localStorage.setItem("maxAttack", attack);
     window.localStorage.setItem("minAttack", 1);
     window.localStorage.setItem("defense", 0);
-    window.localStorage.setItem("weapontype", "fist");
-    window.localStorage.setItem("armortype", "shirt");
+    window.localStorage.setItem("weapontype", "Fist");
+    window.localStorage.setItem("armortype", "Shirt");
     window.location.href = "maingame.html";
 }
 

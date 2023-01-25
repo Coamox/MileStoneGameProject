@@ -53,7 +53,7 @@ button:hover
     grid-auto-columns: auto;
     grid-auto-rows: 23.5vh;
     grid-template-areas:
-        "a a a"
+        "a d e"
         "b b b"
         "c c c";
 }
@@ -61,4 +61,43 @@ button:hover
 #buttons
 {
     grid-area: b;
+}
+
+#player
+{
+    grid-area: a;
+    background-color: rgb(198, 207, 207); 
+    color: black; 
+    border: 2px solid #000000;  
+    width: 300px;
+    height: 200px;
+    font-size: 8px;
+    border-radius: 8px;
+    margin: auto; 
+}
+
+#combat
+{
+    grid-area: d;
+    background-color: rgb(198, 207, 207); 
+    color: black; 
+    border: 2px solid #000000;  
+    width: 500px;
+    height: 200px;
+    font-size: 8px;
+    border-radius: 8px;
+    margin: auto; 
+}
+
+#enemy
+{
+    grid-area: e;
+    background-color: rgb(198, 207, 207); 
+    color: black; 
+    border: 2px solid #000000;  
+    width: 300px;
+    height: 200px;
+    font-size: 8px;
+    border-radius: 8px;
+    margin: auto; 
 }

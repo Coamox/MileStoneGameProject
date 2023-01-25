@@ -25,16 +25,6 @@ if(exp >= (100 * level))
     localStorage.setItem("minAttack", minAttack);
 }
 
-console.log(name);
-console.log("Class: " + playerClass);
-console.log("Level: " + level);
-console.log("Health: " + hp);
-console.log("Defense: " + defense);
-console.log("Max hit: " + maxAttack);
-console.log("Min hit: " + minAttack);
-console.log("Experience: " + exp + "/" + (level*100));
-console.log("Gold: " + gold); 
-
 document.getElementById("name").innerHTML = "Player Name: " + name;
 document.getElementById("class").innerHTML = "Player Class: " + "Lvl " + level + " " + playerClass;
 document.getElementById("health").innerHTML = "Max Health: " + hp;
