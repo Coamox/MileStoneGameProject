@@ -9,6 +9,7 @@ console.log(localStorage.getItem("attack"));
 let hp = parseInt(localStorage.getItem("health"));
 let maxAttack = parseInt(localStorage.getItem("attack"));
 let exp = parseInt(localStorage.getItem("exp"));
+let gold = parseInt(localStorage.getItem("gold"))
 let attack = 0;
 
 //Enemy default variables which later will be altered when more enemies are introduced
@@ -23,6 +24,14 @@ function getRndInteger(min, max)
 {
     return Math.floor(Math.random() * (max - min + 1) ) + min;
 }
+
+//Disables buttons and changes flee to return to town
+function combatDone()
+{
+    document.getElementById('attack').disabled = true;
+    document.getElementById('defend').disabled = true;
+    document.getElementById("back").innerText = "Return to Town";
+} 
 
 //This dictates what chunk of enemy ai logic will be used based on the enemy you're fighting
 function monsterMove(name)
@@ -94,13 +103,16 @@ document.getElementById('attack').addEventListener('click', async (event) =>
         if(hp <= 0)
         {
             console.log("YOU HAVE FALLEN");
+            combatDone();
             return;
         }
         else if(enemyHP <= 0)
         {
             console.log("You have slain the " + monsterName + "!");
-            console.log("You gain 5 XP!");
-            exp = exp + 5;
+            console.log("You gain 100 XP and 5 gold!");
+            exp = exp + 100;
+            gold = gold + 5;
+            combatDone();
             return;    
         }
     }
@@ -128,6 +140,7 @@ document.getElementById('back').addEventListener('click', async (event) =>
     {
 	    event.preventDefault()
         window.localStorage.setItem("exp", exp);
+        window.localStorage.setItem("gold", gold);
 	    window.location.href = "maingame.html";
     }
 )

@@ -4,6 +4,7 @@ function classPick(className, hp, attack)
     window.localStorage.setItem("class",className);
     window.localStorage.setItem("exp", 0);
     window.localStorage.setItem("level", 1);
+    window.localStorage.setItem("gold", 10);
     localStorage.setItem("health", hp);
     localStorage.setItem("attack", attack);
     window.location.href = "maingame.html";

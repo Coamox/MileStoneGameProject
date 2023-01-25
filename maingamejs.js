@@ -4,8 +4,10 @@ let exp = parseInt(localStorage.getItem("exp"));
 let playerClass = localStorage.getItem("class");
 let hp = parseInt(localStorage.getItem("health"));
 let attack = parseInt(localStorage.getItem("attack"));
+let gold = parseInt(localStorage.getItem("gold"))
 
-if(exp >= 100)
+//Checks XP to see if the player is ready to level up
+if(exp >= (100 * level))
 {
     level = level + 1;
     console.log(exp);
@@ -17,11 +19,12 @@ if(exp >= 100)
     console.log("You leveled up!")
 }
 
-console.log(playerClass);
-console.log(hp);
-console.log(attack);
-console.log(level);
-console.log(exp);
+console.log("Class: " + playerClass);
+console.log("Level: " + level);
+console.log("Health: " + hp);
+console.log("Max hit: " + attack);
+console.log("Experience: " + exp + "/" + (level*100));
+console.log("Gold: " + gold); 
 
 //Button and their effects
 document.getElementById('back').addEventListener('click', async (event) => 
