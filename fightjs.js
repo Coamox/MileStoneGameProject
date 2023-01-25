@@ -3,7 +3,7 @@ console.log(localStorage.getItem("health"));
 console.log(localStorage.getItem("maxAttack"));
 
 //Basic combat code to allow the player to either attack, defend or flee; notify them they are victorious or
-//have been defeated; now gold and xp have been included;
+//have been defeated; now gold and xp have been included; Armor and a function to calculate damage has been added;
 
 //Player variables pulled from local storage
 let hp = parseInt(localStorage.getItem("health"));
@@ -130,6 +130,7 @@ function monsterMove(name)
     }
 }
 
+//Calculates damage with attack and armor arguements
 function takeDamage(attack, armor)
 {
     if((attack - armor) <= 0)

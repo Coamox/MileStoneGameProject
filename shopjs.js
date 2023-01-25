@@ -5,6 +5,7 @@ let minAttack = parseInt(localStorage.getItem("minAttack"));
 let maxAttack = parseInt(localStorage.getItem("maxAttack"));
 let defense = parseInt(localStorage.getItem("defense"));
 
+//Buttons that call the respective functions
 document.getElementById('back').addEventListener('click', async (event) => 
 {
 	event.preventDefault()
