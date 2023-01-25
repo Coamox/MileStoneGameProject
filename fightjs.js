@@ -3,7 +3,7 @@ console.log(localStorage.getItem("health"));
 console.log(localStorage.getItem("attack"));
 
 //Basic combat code to allow the player to either attack, defend or flee; notify them they are victorious or
-//have been defeated;
+//have been defeated; now gold and xp have been included;
 
 //Player variables pulled from local storage
 let hp = parseInt(localStorage.getItem("health"));
@@ -16,10 +16,11 @@ let attack = 0;
 let enemyMaxHP = 20;
 let enemyHP = enemyMaxHP;
 let enemyMaxATK = 5;
-let monsterName = "goblin";
+let monsterName = "";
 let enemyATK = 0;
 let attackTimer = 0;
 
+//Random number generation, icludes min and max arguements in generation
 function getRndInteger(min, max) 
 {
     return Math.floor(Math.random() * (max - min + 1) ) + min;
@@ -33,6 +34,37 @@ function combatDone()
     document.getElementById("back").innerText = "Return to Town";
 } 
 
+//Randomly Selects enemy to fight
+function enemyToFight()
+{
+
+    if(monsterName != "")
+    {
+        return;
+    }
+
+    let choice = getRndInteger(1,2);
+    
+    switch(choice)
+    {
+        case 1:
+            monsterName = "goblin";
+            enemyMaxHP = 20;
+            enemyMaxATK = 5;
+        break;
+
+        case 2:
+            monsterName = "skeleton";
+            enemyMaxHP = 50;
+            enemyMaxATK = 3;
+    }
+
+    console.log("A " + monsterName + " crosses your path, prepare to fight!");
+}
+
+//Could be placed much better but still annoyed at the dumb reason why I broke it in the first place
+enemyToFight();
+
 //This dictates what chunk of enemy ai logic will be used based on the enemy you're fighting
 function monsterMove(name)
 {
@@ -43,35 +75,77 @@ function monsterMove(name)
             {
                 enemyATK = 0;
                 attackTimer++;
-                console.log(monsterName + " prepares his next attack!")
+                console.log("The " + monsterName + " prepares his next attack!")
             }
             else if(attackTimer === 4)
             {
                 enemyATK = (getRndInteger(1, enemyMaxATK) + 5);
-                console.log(monsterName + " critically hits you for " + enemyATK + " damage!")
+                console.log("The " + monsterName + " critically hits you for " + enemyATK + " damage!")
                 attackTimer = 0;
             }
             else
             {
                 enemyATK = getRndInteger(1, enemyMaxATK);
                 attackTimer = attackTimer + (getRndInteger(0, 1));
-                console.log(monsterName + " hits you for " + enemyATK + " damage!")
+                console.log("The " + monsterName + " hits you for " + enemyATK + " damage!")
                 console.log(attackTimer);
+            }
+        break;
+
+        case 'skeleton':
+            if(attackTimer === 5)
+            {
+                enemyATK = (getRndInteger(1, enemyMaxATK) + 5);
+                console.log("You've recovered from the shield bash!")
+                console.log("The " + monsterName + " hits you for " + enemyATK + " damage!")
+                attackTimer = 0;
+            }
+            else if(attackTimer === 3)
+            {
+                enemyATK = 0;
+                attackTimer++;
+                console.log("The " + monsterName + " bashes you with his shield, your attack damage is halved!")
+                attack = attack / 2;
+            }
+            else if (attackTimer === 4)
+            {
+                enemyATK = getRndInteger(1, enemyMaxATK);
+                attackTimer++;
+                console.log("You're still staggered, your damage is cut in half!")
+                console.log("The " + monsterName + " hits you for " + enemyATK + " damage!")
+                attack = attack / 2;
+            }
+            else
+            {
+                enemyATK = getRndInteger(1, enemyMaxATK);
+                attackTimer = attackTimer + (getRndInteger(0, 1));
+                console.log("The " + monsterName + " hits you for " + enemyATK + " damage!")
             }
     }
 }
 
+//First checks if you're dead then acts accordingly
 //Fighting state function is called on combat button clicks or presses, this calculates the combat damage
 function fighting(state)
 {
-    
-    if(hp <= 0 || enemyHP <= 0)
+       
+    if(hp <= 0)
     {
+        console.log("YOU HAVE FALLEN");
+        combatDone();
         return;
+    }
+    else if(enemyHP <= 0)
+    {
+        console.log("You have slain the " + monsterName + "!");
+        console.log("You gain 100 XP and 5 gold!");
+        exp = exp + 100;
+        gold = gold + 5;
+        combatDone();
+        return;    
     }
 
     attack = getRndInteger(1, maxAttack);
-    // enemyATK = getRndInteger(1, enemyMaxATK);
 
     switch(state)
     {
@@ -81,7 +155,7 @@ function fighting(state)
             hp -= enemyATK;
             console.log("You hit for " + attack + " damage!")
             console.log("Player HP: " + hp);
-            console.log("Goblin HP: " + enemyHP);
+            console.log(monsterName + " HP: " + enemyHP);
             
         break;
 
@@ -90,7 +164,7 @@ function fighting(state)
             hp -= (enemyATK/2);
             console.log("You blocked and reduced the damage in half!")
             console.log("Player HP: " + hp);
-            console.log("Goblin HP: " + enemyHP);
+            console.log(monsterName + " HP: " + enemyHP);
                
     }
 }
@@ -99,39 +173,17 @@ function fighting(state)
 document.getElementById('attack').addEventListener('click', async (event) => 
     {
 	    event.preventDefault()
+
         fighting('attack');
-        if(hp <= 0)
-        {
-            console.log("YOU HAVE FALLEN");
-            combatDone();
-            return;
-        }
-        else if(enemyHP <= 0)
-        {
-            console.log("You have slain the " + monsterName + "!");
-            console.log("You gain 100 XP and 5 gold!");
-            exp = exp + 100;
-            gold = gold + 5;
-            combatDone();
-            return;    
-        }
+
     }
 )
 
 document.getElementById('defend').addEventListener('click', async (event) => 
     {
 	    event.preventDefault()
+
         fighting('defend');
-        if(hp <= 0)
-        {
-            console.log("YOU HAVE FALLEN");
-            return;
-        }
-        else if(enemyHP <= 0)
-        {
-            console.log("YOU HAVE SLAIN THE " + monsterName + "!")
-            return;    
-        }
     }
 )
 
@@ -144,3 +196,4 @@ document.getElementById('back').addEventListener('click', async (event) =>
 	    window.location.href = "maingame.html";
     }
 )
+

@@ -10,7 +10,6 @@ let gold = parseInt(localStorage.getItem("gold"))
 if(exp >= (100 * level))
 {
     level = level + 1;
-    console.log(exp);
     exp = exp - 100;
     attack = attack + 2;
     hp = hp + 5;
