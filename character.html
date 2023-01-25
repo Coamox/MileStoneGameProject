@@ -4,20 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GameProject</title>
-    <!-- <link rel="stylesheet" href="assets/css/style.css" type="text/css"> -->
+    <link rel="stylesheet" href="assets/css/charactercss.css" type="text/css">
     <!-- /* External JS Here */ -->
     <script src="javascript/characterjs.js" defer></script>
 </head>
 <body>
-    <div id="title"></div>
-    <form>
-        <label for="fname">Character Name:</label><br>
-        <input type="text" id="name" value="Nameless Hero"><br>
-        <button id="back">Go Back</button>
-        <button id="warrior">Warrior</button>
-        <button id="mage">Mage</button>
-        <button id="rogue">Rogue</button><br>
-        
-    </form>
+    <div id="character">
+        <div id="classes"></div>
+        <div id="classbuttons">
+            <form>
+                <button id="warrior">Warrior</button>
+                <button id="mage">Mage</button>
+                <button id="rogue">Rogue</button><br>
+            </form>
+        </div>
+        <div id="name">
+            <form>
+                <label for="fname">Character Name:</label><br>
+                <input type="text" id="textname" value="Nameless Hero"><br>
+            </form>
+        </div>
+        <div id="backbutton">
+            <form>
+            <!-- <button id="warrior">Warrior</button>
+            <button id="mage">Mage</button>
+            <button id="rogue">Rogue</button><br>
+            <label for="fname">Character Name:</label><br>
+            <input type="text" id="name" value="Nameless Hero"><br>        -->
+                <button id="back">Go Back</button>
+            </form>
+        </div>
+    </div>
+    
 </body>
 </html>
