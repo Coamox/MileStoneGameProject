@@ -29,7 +29,7 @@ function getRndInteger(min, max)
     return Math.floor(Math.random() * (max - min + 1) ) + min;
 }
 
-//Disables buttons and changes flee to return to town
+//Disables buttons and changes flee to return to town, also updates gold and xp values
 function combatDone()
 {
     window.localStorage.setItem("exp", exp);
@@ -101,14 +101,14 @@ function monsterMove(name)
         case 'skeleton':
             if(attackTimer === 5)
             {
-                enemyATK = (getRndInteger(1, enemyMaxATK) + 5);
+                enemyATK = getRndInteger(1, enemyMaxATK);
                 console.log("You've recovered from the shield bash!")
                 console.log("The " + monsterName + " hits you for " + takeDamage(enemyATK, armor) + " damage!")
                 attackTimer = 0;
             }
             else if(attackTimer === 3)
             {
-                enemyATK = 0;
+                enemyATK = (getRndInteger(1, enemyMaxATK) + 5);
                 attackTimer++;
                 console.log("The " + monsterName + " bashes you with his shield, your attack damage is halved!")
                 attack = attack / 2;
