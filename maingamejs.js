@@ -5,7 +5,7 @@ let playerClass = localStorage.getItem("class");
 let hp = parseInt(localStorage.getItem("health"));
 let attack = parseInt(localStorage.getItem("attack"));
 let gold = parseInt(localStorage.getItem("gold"))
-
+let name = localStorage.getItem("name");
 //Checks XP to see if the player is ready to level up
 if(exp >= (100 * level))
 {
@@ -18,6 +18,7 @@ if(exp >= (100 * level))
     console.log("You leveled up!")
 }
 
+console.log(name);
 console.log("Class: " + playerClass);
 console.log("Level: " + level);
 console.log("Health: " + hp);

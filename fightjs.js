@@ -50,12 +50,14 @@ function enemyToFight()
         case 1:
             monsterName = "goblin";
             enemyMaxHP = 20;
+            enemyHP = enemyMaxHP;
             enemyMaxATK = 5;
         break;
 
         case 2:
             monsterName = "skeleton";
             enemyMaxHP = 50;
+            enemyHP = enemyMaxHP;
             enemyMaxATK = 3;
     }
 
@@ -88,7 +90,6 @@ function monsterMove(name)
                 enemyATK = getRndInteger(1, enemyMaxATK);
                 attackTimer = attackTimer + (getRndInteger(0, 1));
                 console.log("The " + monsterName + " hits you for " + enemyATK + " damage!")
-                console.log(attackTimer);
             }
         break;
 
@@ -128,22 +129,6 @@ function monsterMove(name)
 //Fighting state function is called on combat button clicks or presses, this calculates the combat damage
 function fighting(state)
 {
-       
-    if(hp <= 0)
-    {
-        console.log("YOU HAVE FALLEN");
-        combatDone();
-        return;
-    }
-    else if(enemyHP <= 0)
-    {
-        console.log("You have slain the " + monsterName + "!");
-        console.log("You gain 100 XP and 5 gold!");
-        exp = exp + 100;
-        gold = gold + 5;
-        combatDone();
-        return;    
-    }
 
     attack = getRndInteger(1, maxAttack);
 
@@ -167,6 +152,24 @@ function fighting(state)
             console.log(monsterName + " HP: " + enemyHP);
                
     }
+
+           
+    if(hp <= 0)
+    {
+        console.log("YOU HAVE FALLEN");
+        combatDone();
+        return;
+    }
+    else if(enemyHP <= 0)
+    {
+        console.log("You have slain the " + monsterName + "!");
+        console.log("You gain 100 XP and 5 gold!");
+        exp = exp + 100;
+        gold = gold + 5;
+        combatDone();
+        return;    
+    }
+
 }
 
 //Buttons that recieve user input to give player control over combat

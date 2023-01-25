@@ -1,12 +1,19 @@
-
+//Stores all the basic info into local storage and checks if there is a name typed in
 function classPick(className, hp, attack)
 {
+    if(document.getElementById("name").value === "")
+    {
+        console.log("Gotta name your hero!")
+        return;
+    }
+
+    window.localStorage.setItem("name", (document.getElementById("name").value))
     window.localStorage.setItem("class",className);
     window.localStorage.setItem("exp", 0);
     window.localStorage.setItem("level", 1);
     window.localStorage.setItem("gold", 10);
-    localStorage.setItem("health", hp);
-    localStorage.setItem("attack", attack);
+    window.localStorage.setItem("health", hp);
+    window.localStorage.setItem("attack", attack);
     window.location.href = "maingame.html";
 }
 
