@@ -9,7 +9,7 @@ document.getElementById('start').addEventListener('click', async (event) =>
 document.getElementById('continue').addEventListener('click', async (event) => 
 {
 	event.preventDefault()
-	if(localStorage.getItem("class") != null)
+	if(localStorage.getItem("player") != null)
 	{
 		window.location.href = "maingame.html";
 	}
@@ -27,11 +27,11 @@ document.getElementById('start').addEventListener('mouseover', (event) =>
 
 document.getElementById('continue').addEventListener('mouseover', (event) => 
 {
-	if(localStorage.getItem("name") != null)
+	if(localStorage.getItem("player") != null)
 	{
-		let name = localStorage.getItem("name");
-		let playerClass = localStorage.getItem("class");
-		document.getElementById("savedata").innerHTML = "Continue " + playerClass + " " + name + "'s adventure!";
+		let player = JSON.parse(localStorage.getItem('player'));
+
+		document.getElementById("savedata").innerHTML = "Continue " + player[1] + " " + player[0] + "'s adventure!";
 	}
 	else
 	{

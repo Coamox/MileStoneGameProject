@@ -6,18 +6,19 @@ function classPick(className, hp, attack)
         console.log("Gotta name your hero!")
         return;
     }
+    let name = document.getElementById("textname").value;
+    //arrays contents are listed in order of placement
+    //array storing player name and class
+    let player = [name, className]
+    //array storing weapon, armor,
+    let equipment = ["Fist", "Shirt"]
+    //array storing level-0, hp-1, xp-2, gold-3, minAttack-4, maxAttack-5, defense-6
+    let stats = [1,hp,0,50,1,attack,0]
+    
+    window.localStorage.setItem("player", JSON.stringify(player));
+    window.localStorage.setItem("equipment", JSON.stringify(equipment));
+    window.localStorage.setItem("stats", JSON.stringify(stats));
 
-    window.localStorage.setItem("name", (document.getElementById("textname").value))
-    window.localStorage.setItem("class",className);
-    window.localStorage.setItem("exp", 0);
-    window.localStorage.setItem("level", 1);
-    window.localStorage.setItem("gold", 50);
-    window.localStorage.setItem("health", hp);
-    window.localStorage.setItem("maxAttack", attack);
-    window.localStorage.setItem("minAttack", 1);
-    window.localStorage.setItem("defense", 0);
-    window.localStorage.setItem("weapontype", "Fist");
-    window.localStorage.setItem("armortype", "Shirt");
     window.location.href = "maingame.html";
 }
 
@@ -30,17 +31,17 @@ document.getElementById('back').addEventListener('click', async (event) =>
 document.getElementById('warrior').addEventListener('click', async (event) => 
 {
 	event.preventDefault()
-    classPick("warrior", 50, 10);
+    classPick("Warrior", 50, 10);
 })
 
 document.getElementById('mage').addEventListener('click', async (event) => 
 {
 	event.preventDefault()
-    classPick("mage", 30, 5);
+    classPick("Mage", 30, 5);
 })
 
 document.getElementById('rogue').addEventListener('click', async (event) => 
 {
 	event.preventDefault()
-    classPick("rogue", 40, 15);
+    classPick("Rogue", 40, 15);
 })

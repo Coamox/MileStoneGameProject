@@ -1,19 +1,39 @@
-let gold = parseInt(localStorage.getItem("gold"));
-let weapon = localStorage.getItem("weapontype", "fist");
-let armor = localStorage.getItem("armortype", "shirt");
-let minAttack = parseInt(localStorage.getItem("minAttack"));
-let maxAttack = parseInt(localStorage.getItem("maxAttack"));
-let defense = parseInt(localStorage.getItem("defense"));
+//arrays contents are listed in order of placement
+//array storing weapon, armor,
+let equipment = JSON.parse(localStorage.getItem('equipment'));
+//array storing level-0, hp-1, xp-2, gold-3, minAttack-4, maxAttack-5, defense-6
+let stats = JSON.parse(localStorage.getItem('stats'));
 
-document.getElementById("event").innerHTML = "Time for some upgrades!";
-document.getElementById("damage").innerHTML = weapon + " Damage Boost: " + checkWeapon();
-document.getElementById("defense").innerHTML = armor + " Defense Boost: " + checkArmor();
-document.getElementById("gold").innerHTML = "Gold: " + gold;
+//updates info on screen
+function updateInfo(type, cost)
+{
+
+    document.getElementById("damage").innerHTML = equipment[0] + " Damage Boost: " + checkWeapon();
+    document.getElementById("defense").innerHTML = equipment[1] + " Defense Boost: " + checkArmor();
+    document.getElementById("gold").innerHTML = "Gold: " + stats[3];
+
+    if(type === "wep")
+    {
+        document.getElementById("event").innerHTML = "You bought a " + equipment[0] + " for " + cost + "g!";
+    }
+    else if(type === "arm")
+    {
+        document.getElementById("event").innerHTML = "You bought a " + equipment[1] + " for " + cost + "g!";
+    }
+    else
+    {
+        document.getElementById("event").innerHTML = "Time for some upgrades!";
+    }
+}
+
+updateInfo();
 
 //Buttons that call the respective functions
 document.getElementById('back').addEventListener('click', async (event) => 
 {
 	event.preventDefault()
+    localStorage.setItem("stats", JSON.stringify(stats));
+    localStorage.setItem("equipment", JSON.stringify(equipment));
 	window.location.href = "maingame.html";
 })
 
@@ -33,22 +53,19 @@ document.getElementById('armor').addEventListener('click', async (event) =>
 //Checks current weapon and required gold to upgrade
 function buyWeapon()
 {
-    switch(weapon)
+    switch(equipment[0])
     {
         case 'Fist':
-            if(gold >= 50)
+            if(stats[3] >= 50)
             {
-                weapon = "Dagger";
-                minAttack++;
-                maxAttack++;
-                gold = gold - 50;
-                window.localStorage.setItem("maxAttack", maxAttack);
-                window.localStorage.setItem("minAttack", minAttack);
-                window.localStorage.setItem("weapontype", weapon);
-                window.localStorage.setItem("gold", gold);
+                equipment[0] = "Dagger";
+                //Min attack and Max attack increases
+                stats[4] = stats[4] + 1;
+                stats[5] = stats[5] + 1;
+                stats[3] = stats[3] - 50;
+                
+                updateInfo("wep", 50);
 
-                document.getElementById("damage").innerHTML = weapon + " Damage Boost: " + checkWeapon();
-                document.getElementById("event").innerHTML = "You bought a dagger for 50g!";
             }
             else
             {
@@ -60,20 +77,17 @@ function buyWeapon()
 //Checks current armor and gold required for upgrade
 function buyArmor()
 {
-    switch(armor)
+    switch(equipment[1])
     {
         case 'Shirt':
-            if(gold >= 50)
+            if(stats[3] >= 50)
             {
-                armor = "A Clean Shirt";
-                defense++;
-                gold = gold - 50;
-                window.localStorage.setItem("armortype", armor);
-                window.localStorage.setItem("defense", defense);
-                window.localStorage.setItem("gold", gold);
+                equipment[1] = "A Clean Shirt";
+                stats[6] = stats[6] + 1;
+                stats[3] = stats[3] - 50;
 
-                document.getElementById("defense").innerHTML = armor + " Defense Boost: " + checkArmor();
-                document.getElementById("event").innerHTML = "You bought a clean shirt for 50g!";
+                updateInfo("arm", 50);
+
             }
             else
             {
@@ -85,7 +99,7 @@ function buyArmor()
 //Checks what the current damage weapon bonus is and updates the shop
 function checkWeapon()
 {
-    switch(weapon)
+    switch(equipment[0])
     {
         case 'Fist':
             document.getElementById("weaponType").innerHTML = "Dagger";
@@ -103,7 +117,7 @@ function checkWeapon()
 //Checks what the current armor defense bonus is and updates the shop
 function checkArmor()
 {
-    switch(armor)
+    switch(equipment[1])
     {
         case 'Shirt':
             document.getElementById("armorType").innerHTML = "A Clean Shirt!";

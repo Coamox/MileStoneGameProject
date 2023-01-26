@@ -2,16 +2,18 @@
 //have been defeated; now gold and xp have been included; Armor and a function to calculate damage has been added; HTML elements now
 //update to show changes of battle events
 
-//Player variables pulled from local storage
-let hp = parseInt(localStorage.getItem("health"));
-let maxHP = hp;
-let maxAttack = parseInt(localStorage.getItem("maxAttack"));
-let exp = parseInt(localStorage.getItem("exp"));
-let gold = parseInt(localStorage.getItem("gold"))
-let armor = localStorage.getItem("defense");
-let minAttack = parseInt(localStorage.getItem("minAttack"))
-let attack = 0;
-let playerName = localStorage.getItem('name');
+//arrays contents are listed in order of placement
+//array storing player name and class
+let player = JSON.parse(localStorage.getItem('player'));
+//array storing level-0, hp-1, xp-2, gold-3, minAttack-4, maxAttack-5, defense-6
+let stats = JSON.parse(localStorage.getItem('stats'));
+
+//Player variables 
+let hp = stats[1];
+let exp = 0;
+let gold = 0;
+let playerAttack = 0;
+
 //Enemy default variables which later will be altered when more enemies are introduced
 let enemyMaxHP = 20;
 let enemyHP = enemyMaxHP;
@@ -30,8 +32,10 @@ function getRndInteger(min, max)
 //Disables buttons and changes flee to return to town, also updates gold and xp values
 function combatDone()
 {
-    window.localStorage.setItem("exp", exp);
-    window.localStorage.setItem("gold", gold);
+    stats[2] = stats[2] + exp;
+    stats[3] = stats[3] + gold;
+    localStorage.setItem("stats", JSON.stringify(stats));
+    
     document.getElementById('attack').disabled = true;
     document.getElementById('defend').disabled = true;
     document.getElementById("back").innerText = "Town";
@@ -52,25 +56,58 @@ function enemyToFight()
     {
         case 1:
             monsterName = "goblin";
-            enemyMaxHP = 20;
+            enemyMaxHP = 15 + ((stats[0]) * 5);
             enemyHP = enemyMaxHP;
-            enemyMaxATK = 5;
+            enemyMaxATK = 5 + ((stats[0]) * 2);
+            gold = 5 + ((stats[0]) * 5);
+            exp = 10 + ((stats[0]) * 5);
             document.getElementById("enemyImg").src="assets/images/goblinIdling.gif";
         break;
 
         case 2:
             monsterName = "skeleton";
-            enemyMaxHP = 50;
+            enemyMaxHP = 25 + ((stats[0]) * 5);
             enemyHP = enemyMaxHP;
-            enemyMaxATK = 3;
+            enemyMaxATK = 5 + ((stats[0]) * 2);
+            gold = 20 + ((stats[0]) * 5);
+            exp = 20 + ((stats[0]) * 10);
             document.getElementById("enemyImg").src="assets/images/skeleIdling.gif";
     }
 
-    document.getElementById("name").innerHTML = "Player Name: " + playerName;
-    document.getElementById("health").innerHTML = "HP: " + hp + "/" + maxHP;
+    document.getElementById("name").innerHTML = "Player Name: " + player[0];
+    document.getElementById("health").innerHTML = "HP: " + hp + "/" + stats[1];
     document.getElementById("enemyName").innerHTML = "Enemy: " + monsterName;
     document.getElementById("enemyHealth").innerHTML = "HP: " + enemyHP + "/" + enemyMaxHP;
     document.getElementById("playerEvent").innerHTML = "A " + monsterName + " crosses your path, prepare to fight!";
+}
+
+//Calculates damage with attack and armor arguements
+function takeDamage(attack, armor, entity)
+{
+    let damage = 0;
+
+    if((attack - armor) <= 0)
+    {
+       damage = 1;
+    }
+    else
+    {
+        damage = (attack - armor);
+    }
+
+    if(entity === "player")
+    {
+        hp = hp - damage;
+        console.log(attack);
+        console.log(armor);
+        console.log(damage);
+        return damage;
+    }
+    else
+    {
+        enemyHP = enemyHP - damage;
+        return damage;
+    }
 }
 
 
@@ -120,7 +157,7 @@ function monsterMove(name)
             {
                 enemyATK = (getRndInteger(1, enemyMaxATK) + 5);
                 attackTimer++;
-                attack = attack / 2;
+                playerAttack = playerAttack / 2;
 
                 document.getElementById("enemyEvent").innerHTML = "The " + monsterName + " bashes you with his shield, your attack damage is halved!";
                 document.getElementById("debuff").innerHTML = "Debuffs: Staggered(Damage cut in half)";
@@ -129,7 +166,7 @@ function monsterMove(name)
             {
                 enemyATK = getRndInteger(1, enemyMaxATK);
                 attackTimer++;
-                attack = attack / 2;
+                playerAttack = playerAttack / 2;
 
                 document.getElementById("enemyEvent").innerHTML = "The " + monsterName + " swings at you while you're staggered!";
             }
@@ -141,19 +178,9 @@ function monsterMove(name)
                 document.getElementById("enemyEvent").innerHTML = "The " + monsterName + " swings at you!";
             }
     }
-}
 
-//Calculates damage with attack and armor arguements
-function takeDamage(attack, armor)
-{
-    if((attack - armor) <= 0)
-    {
-        return 1;
-    }
-    else
-    {
-        return (attack - armor);
-    }
+    
+
 }
 
 //First checks if you're dead then acts accordingly
@@ -161,27 +188,28 @@ function takeDamage(attack, armor)
 function fighting(state)
 {
 
-    attack = getRndInteger(minAttack, maxAttack);
-
+    let damage = 0;
+    
     switch(state)
     {
         case 'attack':
             monsterMove(monsterName);
-            enemyHP -= attack;
-            hp -= takeDamage(enemyATK, armor);
+            playerDamage = takeDamage(enemyATK, stats[6], "player");
+            playerAttack = takeDamage(getRndInteger(stats[4],stats[5]), 0, "enemy");
 
-            document.getElementById("enemyDamage").innerHTML = "The " + monsterName + " hits you for " + takeDamage(enemyATK, armor) + " damage!";
-            document.getElementById("playerDamage").innerHTML = "You hit for " + attack + " damage!";
+            document.getElementById("enemyDamage").innerHTML = "The " + monsterName + " hits you for " + playerDamage + " damage!";
+            document.getElementById("playerDamage").innerHTML = "You hit for " + playerAttack + " damage!";
             document.getElementById("playerEvent").innerHTML = "You swing at the " + monsterName + "!";
             
         break;
 
         case 'defend':
             monsterMove(monsterName);
-            hp -= (takeDamage(enemyATK, armor)) / 2;
+            playerDamage = takeDamage((enemyATK/2), stats[6], "player");
+            playerAttack = 0;
 
-            document.getElementById("enemyDamage").innerHTML = "The " + monsterName + " hits you for " + takeDamage(enemyATK, armor) + " damage!";
-            document.getElementById("playerDamage").innerHTML = "You hit for " + 0 + " damage!";  
+            document.getElementById("enemyDamage").innerHTML = "The " + monsterName + " hits you for " + playerDamage + " damage!";
+            document.getElementById("playerDamage").innerHTML = "Blocking!";  
             document.getElementById("playerEvent").innerHTML = "You block and reduce damage taken by half!";
     }
 
@@ -190,7 +218,7 @@ function fighting(state)
     {
         combatDone();
 
-        document.getElementById("health").innerHTML = "HP: " + hp + "/" + maxHP;
+        document.getElementById("health").innerHTML = "HP: " + hp + "/" + stats[1];
         document.getElementById("enemyHealth").innerHTML = "HP: " + enemyHP + "/" + enemyMaxHP;
         document.getElementById("playerEvent").innerHTML = "YOU HAVE BEEN DEFEATED!";
         document.getElementById("debuff").innerHTML = "Debuffs: Dead";
@@ -198,17 +226,16 @@ function fighting(state)
     }
     else if(enemyHP <= 0)
     {
-        exp = exp + 100;
-        gold = gold + 5;
+
         combatDone();
 
-        document.getElementById("health").innerHTML = "HP: " + hp + "/" + maxHP;
+        document.getElementById("health").innerHTML = "HP: " + hp + "/" + stats[1];
         document.getElementById("enemyHealth").innerHTML = "HP: " + enemyHP + "/" + enemyMaxHP;
-        document.getElementById("playerEvent").innerHTML = "You slay the " + monsterName + " with a blow of " + attack + " damage and have earned " + 100 + " xp and " + 5 + " gold!";
+        document.getElementById("playerEvent").innerHTML = "You slay the " + monsterName + " with a blow of " + playerAttack + " damage and have earned " + exp + " xp and " + gold + " gold!";
         return;    
     }
 
-    document.getElementById("health").innerHTML = "HP: " + hp + "/" + maxHP;
+    document.getElementById("health").innerHTML = "HP: " + hp + "/" + stats[1];
     document.getElementById("enemyHealth").innerHTML = "HP: " + enemyHP + "/" + enemyMaxHP;
 }
 
