@@ -20,8 +20,8 @@ button
     border: 2px solid #000000; 
     transition-duration: 0.4s;
     opacity: 0.6; 
-    width: 150px;
-    height: 150px;
+    width: 33%;
+    height: 100%;
     font-size: 23px;
     border-radius: 8px;
     padding: 10px;
@@ -53,24 +53,79 @@ button:hover
     grid-auto-columns: auto;
     grid-auto-rows: 23.5vh;
     grid-template-areas:
-        "a d e"
-        "b b b"
-        "c c c";
+        "a b c"
+        "a b c"
+        "d e f"
+        "g g g";
+}
+
+#images
+{
+    grid-area: b;
+    border: 2px solid #000000;
+    border-radius: 8px;
+    background-image: url("../images/titlebackground.png");
+    height: 100%;
+    width: 500px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: auto; 
+}
+
+#playerImage
+{
+    grid-area: a;
+    border: 2px solid #000000;
+    border-radius: 8px;
+    background-image: url("../images/titlebackground.png");
+    height: 100%;
+    width: 500px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: auto; 
+}
+
+#playerImg
+{
+    height: 100%;
+    object-fit: contain;
+}
+
+#enemyImg
+{
+    height: 100%;
+    object-fit: contain;
+}
+
+#enemyImage
+{
+    grid-area: c;
+    border: 2px solid #000000;
+    border-radius: 8px;
+    background-image: url("../images/titlebackground.png");
+    height: 100%;
+    width: 500px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: auto; 
 }
 
 #buttons
 {
-    grid-area: b;
+    grid-area: g;
 }
 
 #player
 {
-    grid-area: a;
+    grid-area: d;
     background-color: rgb(198, 207, 207); 
     color: black; 
     border: 2px solid #000000;  
-    width: 300px;
-    height: 200px;
+    width: 500px;
+    height: 100%;
     font-size: 8px;
     border-radius: 8px;
     margin: auto; 
@@ -78,12 +133,12 @@ button:hover
 
 #combat
 {
-    grid-area: d;
+    grid-area: e;
     background-color: rgb(198, 207, 207); 
     color: black; 
     border: 2px solid #000000;  
     width: 500px;
-    height: 200px;
+    height: 100%;
     font-size: 8px;
     border-radius: 8px;
     margin: auto; 
@@ -91,12 +146,12 @@ button:hover
 
 #enemy
 {
-    grid-area: e;
+    grid-area: f;
     background-color: rgb(198, 207, 207); 
     color: black; 
     border: 2px solid #000000;  
-    width: 300px;
-    height: 200px;
+    width: 500px;
+    height: 100%;
     font-size: 8px;
     border-radius: 8px;
     margin: auto; 

@@ -55,6 +55,7 @@ function enemyToFight()
             enemyMaxHP = 20;
             enemyHP = enemyMaxHP;
             enemyMaxATK = 5;
+            document.getElementById("enemyImg").src="assets/images/goblinIdling.gif";
         break;
 
         case 2:
@@ -62,6 +63,7 @@ function enemyToFight()
             enemyMaxHP = 50;
             enemyHP = enemyMaxHP;
             enemyMaxATK = 3;
+            document.getElementById("enemyImg").src="assets/images/skeleIdling.gif";
     }
 
     document.getElementById("name").innerHTML = "Player Name: " + playerName;
@@ -183,7 +185,7 @@ function fighting(state)
             document.getElementById("playerEvent").innerHTML = "You block and reduce damage taken by half!";
     }
 
-           
+    //Checks to see if the player or monster is dead then acts accordingly       
     if(hp <= 0)
     {
         combatDone();
@@ -224,7 +226,6 @@ document.getElementById('defend').addEventListener('click', async (event) =>
         fighting('defend');
     }
 )
-
 
 document.getElementById('back').addEventListener('click', async (event) => 
     {

@@ -25,6 +25,7 @@ if(exp >= (100 * level))
     localStorage.setItem("minAttack", minAttack);
 }
 
+//Stats info
 document.getElementById("name").innerHTML = "Player Name: " + name;
 document.getElementById("class").innerHTML = "Player Class: " + "Lvl " + level + " " + playerClass;
 document.getElementById("health").innerHTML = "Max Health: " + hp;
