@@ -22,7 +22,6 @@ let enemyMaxATK = 5;
 let monsterName = "";
 let enemyATK = 0;
 let enemyArmor = 0;
-let attackTimer = 0;
 let enemyDebuff = "None"
 
 //Random number generation, icludes min and max arguements in generation
@@ -81,7 +80,7 @@ function enemyToFight(choice)
 
     document.getElementById("playerInfo").innerHTML = "Player Name: " + player[0] + "<br><br>HP: " + hp + "/" + stats[1] + "<br><br>Debuffs: none";
     document.getElementById("enemyInfo").innerHTML = "Enemy: " + monsterName + "<br><br>HP: " + enemyHP + "/" + enemyMaxHP + "<br><br>Debuffs: none";
-    document.getElementById("event").innerHTML = "A " + monsterName + " crosses your path, prepare to fight!<br>";
+    document.getElementById("event").innerHTML = "A " + monsterName + " crosses your path, prepare to fight!<br><br>";
 
 }
 
@@ -114,63 +113,46 @@ function takeDamage(attack, armor, entity)
 //This dictates what chunk of enemy ai logic will be used based on the enemy you're fighting
 function monsterMove(name)
 {
+    let attackChance = 0;
     switch(name)
     {
         case 'goblin':
-            if(attackTimer === 3)
+            attackChance = getRndInteger(1,10);
+            if(attackChance === 10)
             {
-                enemyATK = 0;
-                attackTimer++;
-
-                document.getElementById("event").innerHTML += "The " + monsterName + " prepares his next attack!<br>";
-            }
-            else if(attackTimer === 4)
-            {
-                enemyATK = (getRndInteger(1, enemyMaxATK) + 5);
-                attackTimer = 0;
+                enemyATK = (getRndInteger(1, enemyMaxATK)) + 5;
 
                 document.getElementById("event").innerHTML += "The " + monsterName + " critically hits you for " + playerDamage + "!<br>";
             }
             else
             {
                 enemyATK = getRndInteger(1, enemyMaxATK);
-                attackTimer = attackTimer + (getRndInteger(0, 1));
 
                 document.getElementById("event").innerHTML += "The " + monsterName + " strikes you for " + playerDamage + "!<br>";
             }
         break;
 
         case 'skeleton':
-            if(attackTimer === 5)
+            attackChance = getRndInteger(1,10);
+            if(attackChance === 10)
             {
-                enemyATK = getRndInteger(1, enemyMaxATK);
-                attackTimer = 0;
                 playerDebuff = "None";
-                document.getElementById("event").innerHTML += "The shielf bash wears off!<br>"
-                document.getElementById("event").innerHTML += "The " + monsterName + " strikes you for " + playerDamage + "!<br>";
-                
+                enemyATK = (getRndInteger(1, enemyMaxATK)) + 5;
+
+                document.getElementById("event").innerHTML += "The " + monsterName + " critically hits you for " + playerDamage + "!<br>";
             }
-            else if(attackTimer === 3)
+            else if (attackChance >= 8)
             {
-                enemyATK = (getRndInteger(1, enemyMaxATK) + 5);
-                attackTimer++;
                 playerAttack = playerAttack / 2;
                 playerDebuff = "Staggered! (Damage cut in half!)"
-
-                document.getElementById("enemyEvent").innerHTML = "The " + monsterName + " bashes you with his shield for " + playerDamage + " damage!<br>";
-            }
-            else if (attackTimer === 4)
-            {
-                enemyATK = getRndInteger(1, enemyMaxATK);
-                attackTimer++;
-                playerAttack = playerAttack / 2;
-
-                document.getElementById("event").innerHTML += "The " + monsterName + " strikes you for " + playerDamage + "!<br>";
+                enemyATK = (getRndInteger(1, enemyMaxATK))/2;
+                
+                document.getElementById("event").innerHTML = "The " + monsterName + " bashes you with his shield for " + playerDamage + " damage!<br>";
             }
             else
             {
+                playerDebuff = "None";
                 enemyATK = getRndInteger(1, enemyMaxATK);
-                attackTimer = attackTimer + (getRndInteger(0, 1));
 
                 document.getElementById("event").innerHTML += "The " + monsterName + " strikes you for " + playerDamage + "!<br>";
             }
@@ -188,7 +170,7 @@ function fighting(state)
             monsterMove(monsterName);
             playerAttack = takeDamage(getRndInteger(stats[4],stats[5]), 0, "enemy");
 
-            document.getElementById("event").innerHTML += "You deal " + playerAttack + " damage!<br>";
+            document.getElementById("event").innerHTML += "You deal " + playerAttack + " damage!<br><br>";
             enemyToFight();
         break;
 
@@ -197,7 +179,7 @@ function fighting(state)
             monsterMove(monsterName);
             playerAttack = 0;
 
-            document.getElementById("event").innerHTML += "You block and reduce damage taken by half!<br>";
+            document.getElementById("event").innerHTML += "You block and reduce damage taken by half!<br><br>";
             enemyToFight();
     }
 
@@ -207,17 +189,17 @@ function fighting(state)
         combatDone();
 
         document.getElementById("event").innerHTML += "YOU HAVE BEEN DEFEATED!";
-        return;
+
     }
     else if(enemyHP <= 0)
     {
 
         combatDone();
 
-        document.getElementById("event").innerHTML += "You have slain the " + monsterName + "!<br>" + "You earn " + exp + " xp and " + gold + " gold!";
-        return;    
+        document.getElementById("event").innerHTML += "You have slain the " + monsterName + "!<br>" + "You earn " + exp + " xp and " + gold + " gold!<br><br>";   
     }
 
+    document.getElementById("event").scrollIntoView(false);
     document.getElementById("health").innerHTML = "HP: " + hp + "/" + stats[1];
     document.getElementById("enemyHealth").innerHTML = "HP: " + enemyHP + "/" + enemyMaxHP;
 }
