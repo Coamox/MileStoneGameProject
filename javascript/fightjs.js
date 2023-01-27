@@ -15,6 +15,7 @@ let gold = 0;
 let playerAttack = 0;
 let combatStart = false;
 let playerDebuff = "None";
+let playerDebuffCounter = 0;
 //Enemy default variables which later will be altered when more enemies are introduced
 let enemyMaxHP = 20;
 let enemyHP = enemyMaxHP;
@@ -23,6 +24,7 @@ let monsterName = "";
 let enemyATK = 0;
 let enemyArmor = 0;
 let enemyDebuff = "None"
+let enemyDebuffCounter = 0;
 
 //Random number generation, icludes min and max arguements in generation
 function getRndInteger(min, max) 
@@ -33,13 +35,29 @@ function getRndInteger(min, max)
 //Disables buttons and changes flee to return to town, also updates gold and xp values
 function combatDone()
 {
-    stats[2] = stats[2] + exp;
-    stats[3] = stats[3] + gold;
-    localStorage.setItem("stats", JSON.stringify(stats));
-    
-    document.getElementById('attack').disabled = true;
-    document.getElementById('defend').disabled = true;
-    document.getElementById("back").innerText = "Town";
+    if(hp <= 0 || enemyHP <= 0)
+    {
+        document.getElementById('attack').disabled = true;
+        document.getElementById('defend').disabled = true;
+        document.getElementById("back").innerText = "Town";
+        if(hp <= 0)
+            {
+            document.getElementById("event").innerHTML += "YOU HAVE BEEN DEFEATED!";
+            }
+        else if(enemyHP <= 0)
+            {
+            stats[2] = stats[2] + exp;
+            stats[3] = stats[3] + gold;
+            localStorage.setItem("stats", JSON.stringify(stats));
+
+            document.getElementById("event").innerHTML += "You have slain the " + monsterName + "!<br>" + "You earn " + exp + " xp and " + gold + " gold!<br><br>";   
+            }
+    }
+ 
+    document.getElementById("event").scrollIntoView(false);
+    document.getElementById("playerInfo").innerHTML = "Player Name: " + player[0] + "<br><br>HP: " + hp + "/" + stats[1] + "<br><br>Debuffs: " + playerDebuff;
+    document.getElementById("enemyInfo").innerHTML = "Enemy: " + monsterName + "<br><br>HP: " + enemyHP + "/" + enemyMaxHP + "<br><br>Debuffs: " + enemyDebuff;
+ 
 } 
 
 //Randomly Selects enemy to fight, updates text on screen
@@ -47,8 +65,6 @@ function enemyToFight(choice)
 {
     if(monsterName != "")
     {
-        document.getElementById("playerInfo").innerHTML = "Player Name: " + player[0] + "<br><br>HP: " + hp + "/" + stats[1] + "<br><br>Debuffs: " + playerDebuff;
-        document.getElementById("enemyInfo").innerHTML = "Enemy: " + monsterName + "<br><br>HP: " + enemyHP + "/" + enemyMaxHP + "<br><br>Debuffs: " + enemyDebuff;
         return;
     }
 
@@ -78,36 +94,63 @@ function enemyToFight(choice)
             document.getElementById("enemyImg").src="assets/images/skeleIdling.gif";
     }
 
-    document.getElementById("playerInfo").innerHTML = "Player Name: " + player[0] + "<br><br>HP: " + hp + "/" + stats[1] + "<br><br>Debuffs: none";
-    document.getElementById("enemyInfo").innerHTML = "Enemy: " + monsterName + "<br><br>HP: " + enemyHP + "/" + enemyMaxHP + "<br><br>Debuffs: none";
+    document.getElementById("playerInfo").innerHTML = "Player Name: " + player[0] + "<br><br>HP: " + hp + "/" + stats[1] + "<br><br>Debuffs: " + playerDebuff;
+    document.getElementById("enemyInfo").innerHTML = "Enemy: " + monsterName + "<br><br>HP: " + enemyHP + "/" + enemyMaxHP + "<br><br>Debuffs: " + enemyDebuff;
     document.getElementById("event").innerHTML = "A " + monsterName + " crosses your path, prepare to fight!<br><br>";
 
 }
 
+//Handles debuffs for player and monster
+function debuffs(type, target, counter)
+{   
+    if(counter <= 0)
+    {
+        playerDebuff = "None";
+        enemyDebuff = "None";
+        return;
+    }
+    else
+    {
+    switch(type)
+    {
+        case 'Staggered! (Damage cut in half!)':
+        if(target = "player")
+        {
+            console.log(playerAttack);
+            playerAttack = playerAttack / 2;
+            console.log(playerAttack);
+        }
+    }
+
+    if(target === "player" && playerDebuff === "None")
+    {
+        playerDebuffCounter = counter;
+        playerDebuff = type;
+    }
+    else if(target === "player")
+    {
+        playerDebuffCounter = playerDebuffCounter - 1;
+        
+    }
+
+    }
+
+}
+
 //Calculates damage with attack and armor arguements
-function takeDamage(attack, armor, entity)
+function takeDamage(attack, armor)
 {
     let damage = 0;
 
     if((attack - armor) <= 0)
     {
-       damage = 1;
+       return damage = 1;
     }
     else
     {
-        damage = (attack - armor);
+        return damage = (attack - armor);
     }
-
-    if(entity === "player")
-    {
-        hp = hp - damage;
-        return damage;
-    }
-    else
-    {
-        enemyHP = enemyHP - damage;
-        return damage;
-    }
+    
 }
 
 //This dictates what chunk of enemy ai logic will be used based on the enemy you're fighting
@@ -121,13 +164,13 @@ function monsterMove(name)
             if(attackChance === 10)
             {
                 enemyATK = (getRndInteger(1, enemyMaxATK)) + 5;
-
+                playerDamage = takeDamage(enemyATK, stats[6]);
                 document.getElementById("event").innerHTML += "The " + monsterName + " critically hits you for " + playerDamage + "!<br>";
             }
             else
             {
                 enemyATK = getRndInteger(1, enemyMaxATK);
-
+                playerDamage = takeDamage(enemyATK, stats[6]);
                 document.getElementById("event").innerHTML += "The " + monsterName + " strikes you for " + playerDamage + "!<br>";
             }
         break;
@@ -136,24 +179,21 @@ function monsterMove(name)
             attackChance = getRndInteger(1,10);
             if(attackChance === 10)
             {
-                playerDebuff = "None";
                 enemyATK = (getRndInteger(1, enemyMaxATK)) + 5;
-
+                playerDamage = takeDamage(enemyATK, stats[6]);
                 document.getElementById("event").innerHTML += "The " + monsterName + " critically hits you for " + playerDamage + "!<br>";
             }
-            else if (attackChance >= 8)
+            else if (attackChance >= 6 && playerDebuff === "None")
             {
-                playerAttack = playerAttack / 2;
-                playerDebuff = "Staggered! (Damage cut in half!)"
+                debuffs("Staggered! (Damage cut in half!)", "player", 3)
                 enemyATK = (getRndInteger(1, enemyMaxATK))/2;
-                
-                document.getElementById("event").innerHTML = "The " + monsterName + " bashes you with his shield for " + playerDamage + " damage!<br>";
+                playerDamage = takeDamage(enemyATK, stats[6]);
+                document.getElementById("event").innerHTML += "The " + monsterName + " bashes you for " + playerDamage + " damage!<br>";
             }
             else
             {
-                playerDebuff = "None";
                 enemyATK = getRndInteger(1, enemyMaxATK);
-
+                playerDamage = takeDamage(enemyATK, stats[6]);
                 document.getElementById("event").innerHTML += "The " + monsterName + " strikes you for " + playerDamage + "!<br>";
             }
     }
@@ -166,42 +206,29 @@ function fighting(state)
     switch(state)
     {
         case 'attack':            
-            playerDamage = takeDamage(enemyATK, stats[6], "player");
             monsterMove(monsterName);
-            playerAttack = takeDamage(getRndInteger(stats[4],stats[5]), 0, "enemy");
+            playerAttack = takeDamage(getRndInteger(stats[4],stats[5]), 0);
+            debuffs(playerDebuff, "player", playerDebuffCounter);
+            enemyHP = enemyHP - playerAttack;
+            hp = hp - playerDamage;
 
             document.getElementById("event").innerHTML += "You deal " + playerAttack + " damage!<br><br>";
-            enemyToFight();
         break;
 
         case 'defend':
-            playerDamage = takeDamage((enemyATK/2), stats[6], "player");
             monsterMove(monsterName);
             playerAttack = 0;
+            debuffs(playerDebuff, "player", playerDebuffCounter);
+            enemyHP = enemyHP - playerAttack;
+            hp = hp - (playerDamage/2);
 
-            document.getElementById("event").innerHTML += "You block and reduce damage taken by half!<br><br>";
-            enemyToFight();
+            document.getElementById("event").innerHTML += "You block and reduce damage to "+ (playerDamage/2) +"!<br><br>";
     }
 
-    //Checks to see if the player or monster is dead then acts accordingly       
-    if(hp <= 0)
-    {
-        combatDone();
 
-        document.getElementById("event").innerHTML += "YOU HAVE BEEN DEFEATED!";
+    //Checks to see if the player or monster is dead then updates info       
+    combatDone();
 
-    }
-    else if(enemyHP <= 0)
-    {
-
-        combatDone();
-
-        document.getElementById("event").innerHTML += "You have slain the " + monsterName + "!<br>" + "You earn " + exp + " xp and " + gold + " gold!<br><br>";   
-    }
-
-    document.getElementById("event").scrollIntoView(false);
-    document.getElementById("health").innerHTML = "HP: " + hp + "/" + stats[1];
-    document.getElementById("enemyHealth").innerHTML = "HP: " + enemyHP + "/" + enemyMaxHP;
 }
 
 //Buttons that recieve user input to give player control over combat
