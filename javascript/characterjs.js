@@ -1,15 +1,3 @@
-    //array storing weapons, weapon-0,weapon min damage bonus-1,weapon max damage bonus-2
-    let weapons = 
-    [
-        ['Fist', 0, 0]
-    ]
-    //array storing armor, armor-0,armor defense-1,armor bonus hp-2
-    let armors = 
-    [
-        ['Shirt', 0, 0]
-    ]
-    console.log(weapons[0][1]);
-    console.log(armors[0][1]);
 
 //Stores all the basic info into local storage and checks if there is a name typed in
 function classPick(className, hp, attack)
@@ -24,8 +12,14 @@ function classPick(className, hp, attack)
     //array storing player name and class
     let player = [name, className]
 
-    //array storing weapon, armor,
-    let equipment = ["Fist", "Shirt"]
+    //array storing weapon and armor arrays,
+    //array storing weapons, weapon-0,weapon min damage bonus-1,weapon max damage bonus-2
+    //array storing armor, armor-0,armor defense-1,armor bonus hp-2
+    let equipment = 
+    [
+        ["Fist", 0, 0],
+        ["Shirt", 0, 0]
+    ]
     //array storing level-0, hp-1, xp-2, gold-3, minAttack-4, maxAttack-5, defense-6
     let stats = [1,hp,0,50,1,attack,0]
     

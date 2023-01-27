@@ -8,22 +8,25 @@ let stats = JSON.parse(localStorage.getItem('stats'));
 function updateInfo(type, cost)
 {
 
-    document.getElementById("damage").innerHTML = equipment[0] + " Damage Boost: " + checkWeapon();
-    document.getElementById("defense").innerHTML = equipment[1] + " Defense Boost: " + checkArmor();
+    document.getElementById("damage").innerHTML = equipment[0][0] + " Damage Boost: +" + equipment[0][1] + "/" + equipment[0][2];
+    document.getElementById("defense").innerHTML = equipment[1][0] + " Defense Boost: " + equipment[1][1];
     document.getElementById("gold").innerHTML = "Gold: " + stats[3];
 
     if(type === "wep")
     {
-        document.getElementById("event").innerHTML = "You bought a " + equipment[0] + " for " + cost + "g!";
+        document.getElementById("event").innerHTML = "You bought a " + equipment[0][0] + " for " + cost + "g!";
     }
     else if(type === "arm")
     {
-        document.getElementById("event").innerHTML = "You bought a " + equipment[1] + " for " + cost + "g!";
+        document.getElementById("event").innerHTML = "You bought a " + equipment[1][0] + " for " + cost + "g!";
     }
     else
     {
         document.getElementById("event").innerHTML = "Time for some upgrades!";
     }
+
+    checkArmor();
+    checkWeapon();
 }
 
 updateInfo();
@@ -53,15 +56,15 @@ document.getElementById('armor').addEventListener('click', async (event) =>
 //Checks current weapon and required gold to upgrade
 function buyWeapon()
 {
-    switch(equipment[0])
+    switch(equipment[0][0])
     {
         case 'Fist':
             if(stats[3] >= 50)
             {
-                equipment[0] = "Dagger";
+                equipment[0][0] = "Dagger";
                 //Min attack and Max attack increases
-                stats[4] = stats[4] + 1;
-                stats[5] = stats[5] + 1;
+                equipment[0][1] = 1;
+                equipment[0][2] = 1;
                 stats[3] = stats[3] - 50;
                 
                 updateInfo("wep", 50);
@@ -77,13 +80,13 @@ function buyWeapon()
 //Checks current armor and gold required for upgrade
 function buyArmor()
 {
-    switch(equipment[1])
+    switch(equipment[1][0])
     {
         case 'Shirt':
             if(stats[3] >= 50)
             {
-                equipment[1] = "A Clean Shirt";
-                stats[6] = stats[6] + 1;
+                equipment[1][0] = "A Clean Shirt";
+                equipment[1][1] = 1;
                 stats[3] = stats[3] - 50;
 
                 updateInfo("arm", 50);
@@ -99,10 +102,10 @@ function buyArmor()
 //Checks what the current damage weapon bonus is and updates the shop
 function checkWeapon()
 {
-    switch(equipment[0])
+    switch(equipment[0][0])
     {
         case 'Fist':
-            document.getElementById("weaponType").innerHTML = "Dagger";
+            document.getElementById("weaponType").innerHTML = "Dagger!";
             document.getElementById("weaponCost").innerHTML = "Cost: " + 50;
             return 0;
         break;
@@ -117,7 +120,7 @@ function checkWeapon()
 //Checks what the current armor defense bonus is and updates the shop
 function checkArmor()
 {
-    switch(equipment[1])
+    switch(equipment[1][0])
     {
         case 'Shirt':
             document.getElementById("armorType").innerHTML = "A Clean Shirt!";

@@ -3,6 +3,8 @@
 //array storing player name and class
 let player = JSON.parse(localStorage.getItem('player'));
 //array storing weapon, armor,
+//array storing weapons, weapon-0,weapon min damage bonus-1,weapon max damage bonus-2
+//array storing armor, armor-0,armor defense-1,armor bonus hp-2
 let equipment = JSON.parse(localStorage.getItem('equipment'));
 //array storing level-0, hp-1, xp-2, gold-3, minAttack-4, maxAttack-5, defense-6
 let stats = JSON.parse(localStorage.getItem('stats'));
@@ -26,9 +28,9 @@ if(stats[2] >= (100 * stats[0]))
 //Stats info
 document.getElementById("name").innerHTML = "Player Name: " + player[0];
 document.getElementById("class").innerHTML = "Player Class: " + "Lvl " + stats[0] + " " + player[1];
-document.getElementById("health").innerHTML = "Max Health: " + stats[1];
-document.getElementById("damage").innerHTML = "Damage Range: " + stats[4] + "-" + stats[5];
-document.getElementById("defense").innerHTML = "Defense: " + stats[6];
+document.getElementById("health").innerHTML = "Max Health: " + (stats[1]+equipment[1][2]);
+document.getElementById("damage").innerHTML = "Damage Range: " + (stats[4]+equipment[0][1]) + "-" + (stats[5]+equipment[0][2]);
+document.getElementById("defense").innerHTML = "Defense: " + (stats[6]+equipment[1][1]);
 document.getElementById("exp").innerHTML = "EXP: " + stats[2] + "/" + (stats[0]*100);
 document.getElementById("gold").innerHTML = "Gold: " + stats[3];
 
