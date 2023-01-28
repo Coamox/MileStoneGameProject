@@ -4,6 +4,12 @@ let equipment = JSON.parse(localStorage.getItem('equipment'));
 //array storing level-0, hp-1, xp-2, gold-3, minAttack-4, maxAttack-5, defense-6
 let stats = JSON.parse(localStorage.getItem('stats'));
 
+function transition(page)
+{
+	document.getElementById("transition").src="assets/images/screenExit.gif";
+	setTimeout(() => {window.location.href = page;}, 600);
+}
+
 //updates info on screen
 function updateInfo(type, cost)
 {
@@ -37,7 +43,7 @@ document.getElementById('back').addEventListener('click', async (event) =>
 	event.preventDefault()
     localStorage.setItem("stats", JSON.stringify(stats));
     localStorage.setItem("equipment", JSON.stringify(equipment));
-	window.location.href = "maingame.html";
+	transition("maingame.html");
 })
 
 document.getElementById('weapon').addEventListener('click', async (event) => 
@@ -68,7 +74,6 @@ function buyWeapon()
                 stats[3] = stats[3] - 50;
                 
                 updateInfo("wep", 50);
-
             }
             else
             {
@@ -90,7 +95,6 @@ function buyArmor()
                 stats[3] = stats[3] - 50;
 
                 updateInfo("arm", 50);
-
             }
             else
             {

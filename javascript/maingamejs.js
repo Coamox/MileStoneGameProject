@@ -9,6 +9,12 @@ let equipment = JSON.parse(localStorage.getItem('equipment'));
 //array storing level-0, hp-1, xp-2, gold-3, minAttack-4, maxAttack-5, defense-6
 let stats = JSON.parse(localStorage.getItem('stats'));
 
+function transition(page)
+{
+	document.getElementById("transition").src="assets/images/screenExit.gif";
+	setTimeout(() => {window.location.href = page;}, 600);
+}
+
 //Checks XP to see if the player is ready to level up and updates values
 if(stats[2] >= (100 * stats[0]))
 {
@@ -38,17 +44,18 @@ document.getElementById("gold").innerHTML = "Gold: " + stats[3];
 document.getElementById('back').addEventListener('click', async (event) => 
 {
 	event.preventDefault()
-	window.location.href = "title.html";
+    transition("title.html");
+
 })
 
 document.getElementById('shop').addEventListener('click', async (event) => 
 {
 	event.preventDefault()
-	window.location.href = "shop.html";
+    transition("shop.html");
 })
 
 document.getElementById('fight').addEventListener('click', async (event) => 
 {
 	event.preventDefault()
-	window.location.href = "fight.html";
+    transition("fight.html");
 })

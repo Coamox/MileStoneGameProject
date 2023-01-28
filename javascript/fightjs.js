@@ -26,6 +26,12 @@ let enemyArmor = 0;
 let enemyDebuff = "None"
 let enemyDebuffCounter = 0;
 
+function transition(page)
+{
+	document.getElementById("transition").src="assets/images/screenExit.gif";
+	setTimeout(() => {window.location.href = page;}, 600);
+}
+
 //Random number generation, icludes min and max arguements in generation
 function getRndInteger(min, max) 
 {
@@ -269,7 +275,7 @@ document.getElementById('defend').addEventListener('click', async (event) =>
 document.getElementById('back').addEventListener('click', async (event) => 
     {
 	    event.preventDefault()
-	    window.location.href = "maingame.html";
+        transition("maingame.html");
     }
 )
 

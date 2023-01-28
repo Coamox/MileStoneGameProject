@@ -1,9 +1,15 @@
 
+function transition(page)
+{
+	document.getElementById("transition").src="assets/images/screenExit.gif";
+	setTimeout(() => {window.location.href = page;}, 600);
+}
+
 document.getElementById('start').addEventListener('click', async (event) => 
 {
 	event.preventDefault()
 	localStorage.clear();
-	window.location.href = "character.html";
+	transition("character.html");
 })
 
 document.getElementById('continue').addEventListener('click', async (event) => 
@@ -11,7 +17,7 @@ document.getElementById('continue').addEventListener('click', async (event) =>
 	event.preventDefault()
 	if(localStorage.getItem("player") != null)
 	{
-		window.location.href = "maingame.html";
+		transition("maingame.html");
 	}
 	else
 	{

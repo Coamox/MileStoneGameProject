@@ -36,6 +36,17 @@ body
         "f f f";
 }
 
+#transition
+{
+    height: 100%;
+    width: 100%;
+    size: cover;
+    z-index: 100;
+    position: absolute;
+    pointer-events: none;
+}
+
+
 #classbuttons
 {
     grid-area: d;
