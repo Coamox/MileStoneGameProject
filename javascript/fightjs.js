@@ -57,6 +57,11 @@ function combatDone()
             localStorage.setItem("stats", JSON.stringify(stats));
 
             document.getElementById("event").innerHTML += "You have slain the " + monsterName + "!<br>" + "You earn " + exp + " xp and " + gold + " gold!<br><br>";   
+            
+            if(monsterName === "witch")
+            {
+                localStorage.setItem("boss", "true");
+            }
             }
     }
  
@@ -98,6 +103,17 @@ function enemyToFight(choice)
             gold = 20 + ((stats[0]) * 5);
             exp = 20 + ((stats[0]) * 10);
             document.getElementById("enemyImg").src="assets/images/skeleIdling.gif";
+        break;
+
+        case 3:
+            monsterName = "witch";
+            enemyMaxHP = 150;
+            enemyHP = enemyMaxHP;
+            enemyMaxATK = 20;
+            gold = 100 + ((stats[0]) * 5);
+            exp = 100 + ((stats[0]) * 10);
+            document.getElementById("enemyImg").src="assets/images/witch.gif";
+
     }
 
     document.getElementById("playerInfo").innerHTML = "Player Name: " + player[0] + "<br><br>HP: " + hp + "/" + stats[1] + "<br><br>Debuffs: " + playerDebuff;
@@ -202,6 +218,29 @@ function monsterMove(name)
                 playerDamage = takeDamage(enemyATK, stats[6]);
                 document.getElementById("event").innerHTML += "The " + monsterName + " strikes you for " + playerDamage + "!<br>";
             }
+        break;
+
+        case 'witch':
+            attackChance = getRndInteger(1,10);
+            if(attackChance === 10)
+            {
+                enemyATK = (getRndInteger(1, enemyMaxATK)) + 5;
+                playerDamage = takeDamage(enemyATK, stats[6]);
+                document.getElementById("event").innerHTML += "The " + monsterName + " critically hits you for " + playerDamage + "!<br>";
+            }
+            else if (attackChance >= 6 && playerDebuff === "None")
+            {
+                debuffs("Staggered! (Damage cut in half!)", "player", 3)
+                enemyATK = (getRndInteger(1, enemyMaxATK))/2;
+                playerDamage = takeDamage(enemyATK, stats[6]);
+                document.getElementById("event").innerHTML += "The " + monsterName + " bashes you for " + playerDamage + " damage!<br>";
+            }
+            else
+            {
+                enemyATK = getRndInteger(1, enemyMaxATK);
+                playerDamage = takeDamage(enemyATK, stats[6]);
+                document.getElementById("event").innerHTML += "The " + monsterName + " strikes you for " + playerDamage + "!<br>";
+            }
     }
 }
 
@@ -268,6 +307,24 @@ document.getElementById('defend').addEventListener('click', async (event) =>
         else
         {
             fighting('defend');
+        }
+    }
+)
+
+document.getElementById('skill').addEventListener('click', async (event) => 
+    {
+	    event.preventDefault()
+        if(combatStart != true)
+        {
+            document.getElementById('attack').innerText = "Attack!";
+            document.getElementById('defend').innerText = "Defend!";
+            document.getElementById('skill').innerText = "Not Implemented!";
+            document.getElementById("back").innerText = "Flee!";
+            enemyToFight(3);
+        }
+        else
+        {
+           
         }
     }
 )

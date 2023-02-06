@@ -39,6 +39,11 @@ document.getElementById("damage").innerHTML = "Damage Range: " + (stats[4]+equip
 document.getElementById("defense").innerHTML = "Defense: " + (stats[6]+equipment[1][1]);
 document.getElementById("exp").innerHTML = "EXP: " + stats[2] + "/" + (stats[0]*100);
 document.getElementById("gold").innerHTML = "Gold: " + stats[3];
+console.log(localStorage.getItem('boss'));
+if(localStorage.getItem('boss') === "true")
+{
+    document.getElementById("boss").innerHTML = "Congrats you have slain the boss and won the game!";
+}
 
 //Button and their effects
 document.getElementById('back').addEventListener('click', async (event) => 

@@ -33,6 +33,7 @@ function classPick(className, hp, attack)
     window.localStorage.setItem("player", JSON.stringify(player));
     window.localStorage.setItem("equipment", JSON.stringify(equipment));
     window.localStorage.setItem("stats", JSON.stringify(stats));
+    window.localStorage.setItem("boss", "false");
 
     transition("maingame.html");
 
@@ -50,14 +51,14 @@ document.getElementById('warrior').addEventListener('click', async (event) =>
     classPick("Warrior", 50, 10);
 })
 
-document.getElementById('mage').addEventListener('click', async (event) => 
-{
-	event.preventDefault()
-    classPick("Mage", 30, 5);
-})
+// document.getElementById('mage').addEventListener('click', async (event) => 
+// {
+// 	event.preventDefault()
+//     classPick("Mage", 30, 5);
+// })
 
-document.getElementById('rogue').addEventListener('click', async (event) => 
-{
-	event.preventDefault()
-    classPick("Rogue", 40, 15);
-})
+// document.getElementById('rogue').addEventListener('click', async (event) => 
+// {
+// 	event.preventDefault()
+//     classPick("Rogue", 40, 15);
+// })

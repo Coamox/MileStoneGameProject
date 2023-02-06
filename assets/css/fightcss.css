@@ -66,7 +66,8 @@ button:hover
         "a b c"
         "a b c"
         "d e f"
-        "g g g";
+        "g g g"
+        "h h h"
 }
 
 #zones
@@ -168,4 +169,12 @@ button:hover
     font-size: 20px;
     border-radius: 8px;
     margin: auto; 
+}
+
+#myBar 
+{
+    grid-area: h;
+    width: 0%;
+    height: 30px;
+    background-color: #04AA6D;
 }

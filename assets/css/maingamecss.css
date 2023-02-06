@@ -65,6 +65,7 @@ button:hover
     grid-auto-rows: 23.5vh;
     grid-template-areas:
         "a a a"
+        "a a a"
         "b b b"
         "c c c";
 }
