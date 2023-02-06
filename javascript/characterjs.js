@@ -42,7 +42,7 @@ function classPick(className, hp, attack)
 document.getElementById('back').addEventListener('click', async (event) => 
 {
 	event.preventDefault()
-    transition("title.html");
+    transition("index.html");
 })
 
 document.getElementById('warrior').addEventListener('click', async (event) => 

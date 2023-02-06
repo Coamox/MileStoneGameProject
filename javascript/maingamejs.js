@@ -49,7 +49,7 @@ if(localStorage.getItem('boss') === "true")
 document.getElementById('back').addEventListener('click', async (event) => 
 {
 	event.preventDefault()
-    transition("title.html");
+    transition("index.html");
 
 })
 
